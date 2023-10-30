@@ -14,7 +14,15 @@ const restuarantSlice = createSlice({
     initialState:{
         loading:false,
         allRestaurants:[],
+        allRestaurentContainer:[],
         error:''
+    },
+
+    reducers:{
+        searchRestaurent:(state,action)=>{
+            state.allRestaurants = state.allRestaurentContainer.filter(item=>item.neighborhood.toLowerCase().includes(action.payload))
+        }
+
     },
     extraReducers:(builder)=>{
         builder.addCase(fetchResturents.pending,(state)=>{
@@ -23,6 +31,7 @@ const restuarantSlice = createSlice({
         builder.addCase(fetchResturents.fulfilled,(state,action)=>{
             state.loading = false
             state.allRestaurants = action.payload
+            state.allRestaurentContainer = action.payload
             state.error = ""
         })
         builder.addCase(fetchResturents.rejected,(state,action)=>{
@@ -33,4 +42,5 @@ const restuarantSlice = createSlice({
     }
 })
 
+export const {searchRestaurent}= restuarantSlice.actions
 export default restuarantSlice.reducer
